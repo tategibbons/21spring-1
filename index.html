@@ -1,8 +1,11 @@
+
 <!doctype html>
 <html>
 
 <head>
     <title>Socket.IO chat</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
     <style>
     * {
         margin: 0;
@@ -53,11 +56,49 @@
     #messages {
         margin-bottom: 40px
     }
+    /* For small screen */
+.row :nth-child(even){
+  background-color: #dcdcdc;
+}
+.row :nth-child(odd){
+  background-color: #aaaaaa;
+}
     </style>
+
+
 </head>
 
 <body>
-  Tilt: <span id="tiltHeading">...</span>
+    <!-- Tilt: <span id="tiltHeading">...</span> -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+            Tilt
+            </div>
+            <div class="col-xs-3" id="tiltHeading">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-3">
+            Humidity
+            </div>
+            <div class="col-xs-3" id="humidity">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-3">
+            Compass Z
+            </div>
+            <div class="col-xs-3" id="compassz">
+            ...
+            </div>
+        </div> <!-- row -->
+
+    </div> <!-- container -->
     <ul id="messages"></ul>
     <form action="">
         <input id="m" autocomplete="off" />
@@ -79,8 +120,12 @@
         });
 
         socket.on('sensors', function(data) {
-            console.log('sensors',data);
-            $("#tiltHeading").text(data.tiltHeading)
+            console.log('sensors', data);
+            tiltHeadingDegrees = data.tiltHeading * 180 / Math.PI;
+            $("#tiltHeading").text(tiltHeadingDegrees.toFixed(2))
+            $("#humidity").text(data.humidity.toFixed(2))
+            $("#humidity").text(data.humidity.toFixed(2))
+            $("#compassz").text(data.compass.z)
         });
 
 

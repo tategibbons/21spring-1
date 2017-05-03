@@ -9,26 +9,19 @@ function getData() {
     IMU.getValue(function(err, data) {
         if (err) throw err;
         sensors = data;
-	console.log(sensors);
+  console.log(sensors);
+  io.emit("sensors",sensors)
     });
 }
-getData();
+
+setInterval(getData,1000);
+
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function(socket){
-function getData() {
-    IMU.getValue(function(err, data) {
-        if (err) throw err;
-        sensors = data;
-	console.log(sensors);
-	io.emit("sensors",sensors)
-    });
-}
-
-setInterval(getData,1000);
 
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
